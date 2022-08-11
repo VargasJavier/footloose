@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import "./Assets/CSS/App.css";
+import "./assets/css/App.css";
 import MusicItemContainer from "./Components/containers/MusicItemContainer";
 import MusicListContainer from "./Components/Containers/MusicListContainer";
 
