@@ -11,7 +11,7 @@ const MusicList = ({ musics, isPlay, setPlay, value }) => {
       {!value && <BannerContainer />}
       <h2 className='container__music-title'>Resultados</h2>
       <div className={styles}>
-        {musics ? (
+        {musics.length > 3 ? (
           musics.map((music, i) => (
             <Music key={i} music={music} isPlay={isPlay} setPlay={setPlay} />
           ))
