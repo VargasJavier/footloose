@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./assets/css/App.css";
-import MusicItemContainer from "./Components/containers/MusicItemContainer";
-import MusicListContainer from "./Components/Containers/MusicListContainer";
+import MusicItemContainer from "./components/containers/MusicItemContainer";
+import MusicListContainer from "./components/containers/MusicListContainer";
 
 function App() {
   return (
