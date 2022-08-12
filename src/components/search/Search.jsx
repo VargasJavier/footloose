@@ -1,8 +1,14 @@
+import { useContext } from "react";
 import { FaSistrix as IconSearch } from "react-icons/fa";
 import { FaRegTimesCircle as IconClose } from "react-icons/fa";
 import { FaUserAlt as IconUser } from "react-icons/fa";
+import { FaSignOutAlt as ExitIcon } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { MusicContext } from "../../context/MusicContext";
 
-const Search = ({ setSearch, value, setValue }) => {
+const Search = ({ setSearch, value, setValue, user }) => {
+  const musicContext = useContext(MusicContext);
+  const { addUser } = musicContext;
   return (
     <>
       <section className='container__search container__search-title'>
@@ -23,7 +29,10 @@ const Search = ({ setSearch, value, setValue }) => {
               if (!e.target.value) setSearch("");
             }}
             onKeyDown={(e) => {
-              if (e.key === "Enter") setSearch(e.target.value);
+              if (e.key === "Enter") {
+                setSearch(e.target.value);
+                setValue("");
+              }
             }}
           />
           {value && (
@@ -35,10 +44,13 @@ const Search = ({ setSearch, value, setValue }) => {
                 setValue("");
               }}
             >
-              <IconClose className='search__icon' />
+              <Link to='/'>
+                <IconClose className='search__icon' />
+              </Link>
             </button>
           )}
           <button
+            // to={`/tracks?search=${value}`}
             className='button__icon'
             aria-label='button for search'
             onClick={() => setSearch(value)}
@@ -46,9 +58,29 @@ const Search = ({ setSearch, value, setValue }) => {
             <IconSearch className='search__icon' />
           </button>
         </div>
-        <section className='content__hidden'>
-          <IconUser className='image__hidden' />
-          <span className='text__hidden'>Francisco M</span>
+        <section className='nav__title'>
+          {user.name ? (
+            <>
+              <section className='content__hidden'>
+                <IconUser className='image__hidden' />
+                <span className='text__hidden'>{`${user.name.split(" ")[0]} ${
+                  user.lastname.split(" ")[0]
+                }`}</span>
+              </section>
+              <button className='button__icon' onClick={(e) => addUser(e, {})}>
+                <ExitIcon className='icon__exit' />
+              </button>
+            </>
+          ) : (
+            <section className='content__hidden'>
+              <Link to='/register' className='text__hidden'>
+                Regístrate
+              </Link>
+              <Link to='/login' className='text__hidden login__text'>
+                Iniciar sesión
+              </Link>
+            </section>
+          )}
         </section>
       </section>
     </>

@@ -9,29 +9,42 @@ const options = {
 };
 
 // Obtenemos los datos y los mezclamos
-export const useGetMusics = (musics, setMusics, search = "") => {
+export const useGetMusics = (
+  musics,
+  setMusics,
+  setListPlay,
+  search = "",
+  limit = 10
+) => {
   if (search) {
-    searchAPI(setMusics, search, 1);
-  } else searchAPI(setMusics, artists);
-  if (musics) setMusics(musics);
+    searchAPI(setMusics, search, setListPlay, limit, 1);
+  } else searchAPI(setMusics, artists, setListPlay, limit);
+  if (musics) {
+    setMusics(musics);
+    setListPlay(musics);
+  }
 };
 // Search API
-const searchAPI = (setMusics, value, status = 0) => {
+const searchAPI = (setMusics, value, setListPlay, limit, status = 0) => {
   status
-    ? searchFetch(value, setMusics, options)
-    : value.forEach((artist) => searchFetch(artist, setMusics, options));
+    ? searchFetch(value, setMusics, options, setListPlay, limit)
+    : value.forEach((artist) =>
+        searchFetch(artist, setMusics, options, setListPlay, limit)
+      );
   return;
 };
 // Search Fetch
-const searchFetch = (artist, setMusics, options) => {
+const searchFetch = (artist, setMusics, options, setListPlay, limit) => {
   fetch(`${baseURL}/search?q=${artist}`, options)
     .then((response) => response.json())
     .then((response) => {
-      const musicData = response.data.splice(0, 10);
+      const musicData = response.data.splice(0, limit);
       const data = musicData.map((e) => {
         return { ...e, isPlay: false };
       });
-      setMusics(sortArray(data));
+      let musics = sortArray(data);
+      setMusics(musics);
+      setListPlay(musics);
     })
     .catch((err) => console.error(err));
 };
@@ -39,21 +52,6 @@ const searchFetch = (artist, setMusics, options) => {
 function sortArray(array) {
   return array.sort(() => Math.random() - 0.5);
 }
-// Obtenemos el valor del input y filtra según su valor
-// export const getValueSearch = (musics, search, setMusics) => {
-//   console.log("getValueSearch");
-//   const musicsFilters = musics.filter((m) => {
-//     return (
-//       m.title.toLowerCase().includes(search.toLowerCase()) ||
-//       m.album.title.toLowerCase().includes(search.toLowerCase())
-//     );
-//   });
-//   clearMusics(setMusics);
-//   console.log("VALOR", musics);
-//   setMusics(musicsFilters);
-//   return;
-// };
-
 // Search track
 export const useGetMusic = (id, setItem, setAudio) => {
   fetch(`${baseURL}/track/${id}`, options)
@@ -63,4 +61,16 @@ export const useGetMusic = (id, setItem, setAudio) => {
       setAudio(response.preview);
     })
     .catch((err) => console.error(err));
+};
+
+export const getPrevMusic = (music, list, setMusicPlay) => {
+  const index = list.indexOf(music);
+  if (index === 0) setMusicPlay(list[list.length - 1]);
+  else setMusicPlay(list[index - 1]);
+};
+
+export const getNextMusic = (music, list, setMusicPlay) => {
+  const index = list.indexOf(music);
+  if (index === list.length - 1) setMusicPlay(list[0]);
+  else setMusicPlay(list[index + 1]);
 };

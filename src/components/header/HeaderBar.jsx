@@ -1,8 +1,12 @@
+import { useContext } from "react";
 import foxbel_music from "../../assets/images/foxbel_music.png";
 import foxbel_music2x from "../../assets/images/foxbel_music2x.png";
 import foxbel_music3x from "../../assets/images/foxbel_music3x.png";
+import { MusicContext } from "../../context/MusicContext";
 
 const HeaderBar = () => {
+  const musicContext = useContext(MusicContext);
+  const { user } = musicContext;
   return (
     <section className='content__bar'>
       <header>
@@ -25,19 +29,18 @@ const HeaderBar = () => {
         </picture>
         <nav>
           <ul className='bar__list'>
-            <li className='bar__li'>Mi librería</li>
+            <li className='bar__li'>Playlist</li>
             <li className='bar__li bar__selected'>Recientes</li>
             <li className='bar__li'>Artistas</li>
             <li className='bar__li'>Álbums</li>
             <li className='bar__li'>Canciones</li>
           </ul>
-          <ul className='bar__list'>
-            <li className='bar__li'>Playlist</li>
-            <li className='bar__li'>Metal</li>
-            <li className='bar__li'>Para bailar</li>
-            <li className='bar__li'>Rock 90s</li>
-            <li className='bar__li'>Baladas</li>
-          </ul>
+          {user.name && (
+            <ul className='bar__list'>
+              <li className='bar__li'>My Librería</li>
+              <li className='bar__li'>Favoritos</li>
+            </ul>
+          )}
         </nav>
       </header>
     </section>
