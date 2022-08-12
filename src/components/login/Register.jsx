@@ -3,11 +3,12 @@ import { BsFillMusicPlayerFill as MusicIcon } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import "../../assets/css/login.css";
 import { MusicContext } from "../../context/MusicContext";
-import { useGetUsers } from "../../hooks/useGetUsers";
 
 const Register = () => {
+  const musicContext = useContext(MusicContext);
+  const { addUser, addID, id } = musicContext;
   const userExample = {
-    iduser: "",
+    iduser: id,
     name: "",
     lastname: "",
     phone: "",
@@ -15,8 +16,6 @@ const Register = () => {
     email: "",
     password: "",
   };
-  const musicContext = useContext(MusicContext);
-  const { addUser, addID, id } = musicContext;
   const [users, setUsers] = useState([]);
   const [userValue, setUserValue] = useState(userExample);
   const [error, setError] = useState(false);
@@ -29,7 +28,7 @@ const Register = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(userValue);
     const userFind = users.find((user) => user.email === userValue.email);
@@ -40,17 +39,14 @@ const Register = () => {
     const requestInit = {
       method: "POST",
       headers: { "Content-type": "application/json" },
-      body: JSON.stringify({ ...userValue, iduser: id }),
+      body: JSON.stringify(userValue),
     };
-    fetch("http://localhost:9000/api", requestInit);
+    const res = await fetch("http://localhost:9000/api", requestInit);
+    console.log(res);
     addUser(userValue);
     addID();
     navigate("/");
   };
-
-  useEffect(() => {
-    useGetUsers(setUsers);
-  }, []);
 
   return (
     <>

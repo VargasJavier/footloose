@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 import foxbel_music from "../../assets/images/foxbel_music.png";
 import foxbel_music2x from "../../assets/images/foxbel_music2x.png";
 import foxbel_music3x from "../../assets/images/foxbel_music3x.png";
@@ -30,7 +31,9 @@ const HeaderBar = () => {
         <nav>
           <ul className='bar__list'>
             <li className='bar__li'>Playlist</li>
-            <li className='bar__li bar__selected'>Recientes</li>
+            <li className='bar__li bar__selected'>
+              <Link to='/'>Recientes</Link>
+            </li>
             <li className='bar__li'>Artistas</li>
             <li className='bar__li'>Álbums</li>
             <li className='bar__li'>Canciones</li>
@@ -38,7 +41,9 @@ const HeaderBar = () => {
           {user.name && (
             <ul className='bar__list'>
               <li className='bar__li'>My Librería</li>
-              <li className='bar__li'>Favoritos</li>
+              <li className='bar__li'>
+                <Link to='/favorites'>Favoritos</Link>
+              </li>
             </ul>
           )}
         </nav>

@@ -4,22 +4,17 @@ import { BsFillMusicPlayerFill as MusicIcon } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import "../../assets/css/login.css";
 import { MusicContext } from "../../context/MusicContext";
-import { useGetUsers, useLogin } from "../../hooks/useGetUsers";
+import { useLogin } from "../../hooks/useGetUsers";
 
 const Login = () => {
   const musicContext = useContext(MusicContext);
   const { addUser } = musicContext;
-  const [users, setUsers] = useState({});
   const [userValue, setUserValue] = useState({
     email: "",
     password: "",
   });
   const [error, setError] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    useGetUsers(setUsers);
-  }, []);
 
   return (
     <>
@@ -72,7 +67,7 @@ const Login = () => {
               <button
                 className='button button__login'
                 onClick={(e) => {
-                  useLogin(e, users, userValue, setError, addUser, navigate);
+                  useLogin(e, userValue, navigate, setError, addUser);
                 }}
               >
                 Iniciar sesión

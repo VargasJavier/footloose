@@ -62,10 +62,12 @@ const Search = ({ setSearch, value, setValue, user }) => {
           {user.name ? (
             <>
               <section className='content__hidden'>
-                <IconUser className='image__hidden' />
-                <span className='text__hidden'>{`${user.name.split(" ")[0]} ${
-                  user.lastname.split(" ")[0]
-                }`}</span>
+                <Link to={`/profile/${user.iduser}`}>
+                  <IconUser className='image__hidden' />
+                  <span className='text__hidden'>{`${user.name.split(" ")[0]} ${
+                    user.lastname.split(" ")[0]
+                  }`}</span>
+                </Link>
               </section>
               <button className='button__icon' onClick={(e) => addUser(e, {})}>
                 <ExitIcon className='icon__exit' />

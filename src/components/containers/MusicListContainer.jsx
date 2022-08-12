@@ -5,12 +5,13 @@ import Search from "../search/Search";
 import HeaderBar from "../header/HeaderBar";
 import Footer from "../footer/Footer";
 import { MusicContext } from "../../context/MusicContext";
+import { useGetLikes } from "../../hooks/useGetLikes";
 
 const MusicListContainer = () => {
   const musicContext = useContext(MusicContext);
   const {
     listFavorite,
-    setFavorite,
+    setFavorites,
     musics,
     setMusics,
     search,
@@ -24,17 +25,16 @@ const MusicListContainer = () => {
     listPlay,
     setListPlay,
     user,
-    setUser,
   } = musicContext;
 
   useEffect(() => {
     console.log(user);
+    console.log(listFavorite);
+    user.iduser ? useGetLikes(user.iduser, setFavorites) : null;
     search
       ? useGetMusics(musics, setMusics, setListPlay, search)
       : useGetMusics(musics, setMusics, setListPlay);
   }, [search]);
-
-  useEffect(() => {}, [isPlay]);
 
   return (
     <>
@@ -49,12 +49,12 @@ const MusicListContainer = () => {
           />
           <MusicList
             musics={musics}
-            isPlay={isPlay}
             setPlay={setPlay}
             value={search}
             setMusicPlay={setMusicPlay}
             setMusics={setMusics}
             setListPlay={setListPlay}
+            listFavorite={listFavorite}
           />
         </section>
       </section>

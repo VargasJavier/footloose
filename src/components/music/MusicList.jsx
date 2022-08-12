@@ -6,12 +6,12 @@ import { useGetMusics } from "../../hooks/useGetMusics";
 
 const MusicList = ({
   musics,
-  isPlay,
   setPlay,
   value,
   setMusicPlay,
   setMusics,
   setListPlay,
+  listFavorite,
 }) => {
   let styles = value
     ? "container container__musics container__musics-full"
@@ -41,9 +41,15 @@ const MusicList = ({
             <Music
               key={i}
               music={music}
-              isPlay={isPlay}
               setPlay={setPlay}
               setMusicPlay={setMusicPlay}
+              isLikeSave={
+                listFavorite
+                  ? listFavorite.some(
+                      (musicLike) => musicLike.idmusic == music.id
+                    )
+                  : false
+              }
             />
           ))
         ) : (
